@@ -1,0 +1,13 @@
+So, at the top of each C header file (after the include guards), we have
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+and at the bottom, we write
+
+#ifdef __cplusplus
+}
+#endif
+
+
+Regarding #2: __cplusplus will be defined for any compilation unit that is being run through the C++ compiler. Generally, that means .cpp files and any files being included by that .cpp file. The same .h (or .hh or .hpp or what-have-you) could be interpreted as C or C++ at different times, if different compilation units include them. If you want the prototypes in the .h file to refer to C symbol names, then they must have extern "C" when being interpreted as C++, and they should not have extern "C" when being interpreted as C -- hence the #ifdef __cplusplus checking.
